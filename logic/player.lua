@@ -1,10 +1,18 @@
-Player = {name = "robot", move = "Idle", moveIdx = 1, posx = 0, posy = 0}
+Player = {
+    name = "robot",
+    move = "Idle",
+    direction = "left",
+    moveIdx = 1,
+    posx = 0,
+    posy = 0
+}
 function Player:new()
     local class = {}
     setmetatable(class, self)
     self.__index = self
     class.name = "robot"
     class.move = "Idle"
+    class.direction = "left"
     class.moveIdx = 1
     class.posx = 0
     class.posy = 0
@@ -27,13 +35,20 @@ local function box(x, limit)
 end
 
 function Player:moveUpdate(key, w, h)
+    local last_direction = self.direction
     -- print("player in move update")
     if key == "dpright" then
         self.move = "Run"
-        self.posx = box(self.posx + self.speed, w)
+        self.direction = "right"
+        if last_direction == self.direction then
+            self.posx = box(self.posx + self.speed, w)
+        end
     elseif key == "dpleft" then
         self.move = "Run"
-        self.posx = box(self.posx - self.speed, w)
+        self.direction = "left"
+        if last_direction == self.direction then
+            self.posx = box(self.posx - self.speed, w)
+        end
     elseif key == "dpup" then
         self.move = "Run"
         self.posy = box(self.posy - self.speed, h)

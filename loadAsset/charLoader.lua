@@ -7,18 +7,6 @@ local rootdir = "396765/"
 local characterPath = "1_Main_Characters/"
 local charName2Path = {human = "1/", robot = "2/", fox = "3/"}
 
-local function load_image_safely(filename)
-    local info = love.filesystem.getInfo(filename)
-
-    if info then
-        return love.graphics.newImage(filename)
-    else
-        local errorStr = string.format("Error: Image file %s does not exists",
-                                       filename)
-        print(errorStr)
-        return nil
-    end
-end
 
 local function splitImgs(origin_img)
     local frameW = 32
@@ -49,10 +37,10 @@ end
 function CharLoader:loadOneCharacter(path)
     local act2img = {}
     local files = ListDirectory(path)
-    for i, name in ipairs(files) do
+    for _, name in ipairs(files) do
         local filepath = path .. name
         local basename = name:match("^(.-)%.%w+$")
-        act2img[basename] = splitImgs(load_image_safely(filepath))
+        act2img[basename] = splitImgs(LoadImageSafely(filepath))
     end
     return act2img
 end

@@ -11,3 +11,17 @@ function ListDirectory(directory)
     p:close()
     return files
 end
+
+
+function LoadImageSafely(filename)
+    local info = love.filesystem.getInfo(filename)
+
+    if info then
+        return love.graphics.newImage(filename)
+    else
+        local errorStr = string.format("Error: Image file %s does not exists",
+                                       filename)
+        print(errorStr)
+        return nil
+    end
+end
