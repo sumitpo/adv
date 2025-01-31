@@ -7,7 +7,6 @@ local rootdir = "396765/"
 local characterPath = "1_Main_Characters/"
 local charName2Path = {human = "1/", robot = "2/", fox = "3/"}
 
-
 local function splitImgs(origin_img)
     local frameW = 32
     local frameH = 32

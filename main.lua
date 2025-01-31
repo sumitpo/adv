@@ -43,9 +43,28 @@ function love.update(dt)
     if gameIsPaused then return end
 end
 
-function love.keypressed(key, unicode) end
+function love.keypressed(key, unicode)
+    local buttons = {
+        "right", "left", "up", "down", "dpright", "dpleft", "dpup", "dpdown"
+    }
+    for _, v in ipairs(buttons) do
+        if v == key then
+            State.playerState:moveUpdate(key, State.playerState.w,
+                                         State.playerState.h)
+        end
+    end
+    print(string.format("user at %d %d", State.playerState.posx,
+                        State.playerState.posy))
+end
 
-function love.keyreleased(key, unicode) end
+function love.keyreleased(key, unicode)
+    local buttons = {
+        "right", "left", "up", "down", "dpright", "dpleft", "dpup", "dpdown"
+    }
+    for _, v in ipairs(buttons) do
+        if v == key then State.playerState:moveStop(key) end
+    end
+end
 
 function love.focus(f) gameIsPaused = not f end
 
@@ -71,8 +90,9 @@ end
 local function drawBg()
     local bgImg = BgLoader:getBg(1)
     local w, h = love.graphics.getWidth(), love.graphics.getHeight()
-    love.graphics.draw(bgImg, 0, 0)
-    -- love.graphics.draw()
+    for i = 0, w, 32 do
+        for j = 0, h, 32 do love.graphics.draw(bgImg, i, j) end
+    end
 end
 
 function love.draw()
@@ -88,15 +108,17 @@ function love.draw()
     -- State.playerState:status()
     local scalex = 1
     local scaley = 1
+    local x = State.playerState.posx
     if State.playerState.direction == "left" then
         scalex = -1
+        x = x + 16
     else
         scalex = 1
     end
     love.graphics.draw(playerImg[State.playerState.move]["_img"],
                        playerImg[State.playerState.move]["_quads"][State.playerState
-                           .moveIdx], State.playerState.posx,
-                       State.playerState.posy, 0, scalex, scaley)
+                           .moveIdx], x, State.playerState.posy, 0, scalex,
+                       scaley)
     Menu()
 end
 

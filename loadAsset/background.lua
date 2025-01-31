@@ -16,7 +16,4 @@ function BgLoader:loadBg()
     end
 end
 
-
-function BgLoader:getBg(bgIdx)
-    return self.bg2Img[bgIdx]
-end
+function BgLoader:getBg(bgIdx) return self.bg2Img[bgIdx] end

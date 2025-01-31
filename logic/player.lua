@@ -14,7 +14,7 @@ function Player:new()
     class.move = "Idle"
     class.direction = "left"
     class.moveIdx = 1
-    class.posx = 0
+    class.posx = 16
     class.posy = 0
     class.speed = 3
     return class
@@ -29,32 +29,43 @@ end
 
 local function box(x, limit)
     local ret = x
-    if ret >= limit then ret = limit - 1 end
-    if ret < 0 then ret = 0 end
+    if ret >= limit - 16 then ret = limit - 16 end
+    if ret < 16 then ret = 16 end
     return ret
 end
 
 function Player:moveUpdate(key, w, h)
     local last_direction = self.direction
-    -- print("player in move update")
-    if key == "dpright" then
+    print("player in move update")
+    print(w)
+    if key == "dpright" or key == "right" then
         self.move = "Run"
         self.direction = "right"
         if last_direction == self.direction then
             self.posx = box(self.posx + self.speed, w)
+        else
+            self.posx = self.posx - 16
         end
-    elseif key == "dpleft" then
+    elseif key == "dpleft" or key == "left" then
         self.move = "Run"
         self.direction = "left"
         if last_direction == self.direction then
             self.posx = box(self.posx - self.speed, w)
+        else
+            self.posx = self.posx + 16
         end
-    elseif key == "dpup" then
+    elseif key == "dpup" or key == "up" then
         self.move = "Run"
-        self.posy = box(self.posy - self.speed, h)
-    elseif key == "dpdown" then
+        self.direction = "up"
+        if last_direction == self.direction then
+            self.posy = box(self.posy - self.speed, h)
+        end
+    elseif key == "dpdown" or key == "down" then
         self.move = "Run"
-        self.posy = box(self.posy + self.speed, h)
+        self.direction = "down"
+        if last_direction == self.direction then
+            self.posy = box(self.posy + self.speed, h)
+        end
     end
 end
 
